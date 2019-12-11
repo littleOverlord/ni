@@ -552,7 +552,8 @@ const creater = {
 		let rectangle,rectTexture = Scene.getRectTexture(data.name),o;
 		if(!rectTexture){
 			rectangle = new Graphics()
-			creater.init("rect",rectangle,data,parent);
+			// creater.init("rect",rectangle,data,parent);
+			new Ni(rectangle,data,"rect",parent);
 			rectangle.lineStyle(data["border-width"]||0, data["border-color"]||0, data["border-alpha"]||1, data["border-align"]||0.5);
 			rectangle.beginFill(data["background-color"]||0,data["background-alpha"]||(data["background-color"]?1:0.0001));
 			if(data.radius > 0){
