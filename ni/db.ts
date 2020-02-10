@@ -14,6 +14,7 @@ export default class DB {
     //初始化数据表
     static init(key,value){
         addGetterSetter(DB.data,key,value);
+        cache = {};
     }
 };
 
@@ -21,7 +22,7 @@ export default class DB {
 /**
  * @description 监听事件缓存列表，16毫秒跑一次
  */
-const cache = {};
+let cache = {};
 /**
  * @description 初始化数据绑定，完成数据监听
  * @param o 绑定父节点
