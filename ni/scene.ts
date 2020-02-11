@@ -177,6 +177,7 @@ export default class Scene {
 		if(obj.parent){
 			isTop = obj.widget != obj.parent.widget;
 			obj.parent.removeChild(obj);
+			obj.parent = null;
 			if(isTop){
 				obj.widget.destory();
 			}
