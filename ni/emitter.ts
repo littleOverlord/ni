@@ -26,14 +26,14 @@ export default class Emitter {
 	 * @param {string} key 注册函数的key
 	 * @param {any} param 注册函数接收的参数
 	 */
-	emit(key,param?){
+	emit(key,...param){
 		let evs = this.list[key],r = [];
 		if(!evs){
 			// console.error(`There is no handler match '${key}'`);
 			return r;
 		}
 		for(let i = 0, len = evs.length; i < len; i++){
-			r.push(evs[i](param));
+			r.push(evs[i](...param));
 		}
 		return r;
 	}

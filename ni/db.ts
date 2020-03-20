@@ -16,6 +16,26 @@ export default class DB {
         addGetterSetter(DB.data,key,value);
         cache = {};
     }
+    /**
+     * @description 深复制数据库对象，过滤DB.attrPrefix字段
+     * @param data DB数据对象
+     */
+    static filterCopy(data: any): any{
+        let r = {};
+        if(data == null || typeof data !== "object"){
+            return data;
+        }
+        if(data instanceof Array){
+            r = [];
+        }
+        for(let k in data){
+            if(k == DB.attrPrefix){
+                continue;
+            }
+            r[k] = DB.filterCopy(data[k]);
+        }
+        return r;
+    }
 };
 
 /****************** 本地 ******************/
@@ -31,8 +51,8 @@ let cache = {};
  */
 const addGetterSetter = (o: any,k: string,v: any) => {
     let _o = {},path = o[DB.attrPrefix] || [];
-    if(typeof v == "object"){
-        if(v.length != undefined){
+    if(v != null && typeof v == "object"){
+        if(v instanceof Array){
             _o = [];
         }
         o[k] = new Proxy(_o,{
