@@ -2,6 +2,7 @@
 
 /****************** 导出 ******************/
 export default class Emitter {
+	id = 1;
 	/**
 	 * @description 注册函数列表{key:[func1,func2,...]}
 	 */
@@ -19,7 +20,29 @@ export default class Emitter {
 			// return console.error("Has a same handler in the Emitter.list ",func);
 			return;
 		}
+		func.id = this.id++;
 		this.list[key].push(func);
+		return func.id;
+	}
+	/**
+	 * @description 删除监听
+	 * @param key 监听类型
+	 * @param opt 监听函数或监听id
+	 */
+	remove(key: string,opt:Function|number): void{
+		let index;
+		if(typeof opt == "function"){
+			index = this.list[key].indexOf(opt);
+		}else{
+			for(let i = 0, len = this.list[key].length; i < len; i++){
+				if(this.list[key][i].id == opt){
+					index = i;
+				}
+			}
+		}
+		if(index >= 0){
+			this.list[key].splice(index,1);
+		}
 	}
 	/**
 	 * @description 向所有注册为key的函数广播消息
