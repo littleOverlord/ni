@@ -32,6 +32,9 @@ export default class Music {
     }
     let m = createBufferSource(path);
     if(loop){
+      if(Music.bgm){
+        Music.table[Music.bgm].stop();
+      }
       Music.bgm = path;
       if(!m){
         return;
