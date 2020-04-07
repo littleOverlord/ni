@@ -32,7 +32,7 @@ export default class Music {
     }
     let m = createBufferSource(path);
     if(loop){
-      if(Music.bgm){
+      if(Music.bgm && Music.table[Music.bgm].PLAYING_STATE == Music.table[Music.bgm].playbackState){
         Music.table[Music.bgm].stop();
       }
       Music.bgm = path;
