@@ -411,12 +411,12 @@ class Ni{
 		}
 		let bound = Ni.caclBound(this,parent);
 		
-		bound.w !== undefined && (this.show.width = bound.w);
-		bound.h !== undefined && (this.show.height = bound.h);
+		Number.isFinite(bound.w) && (this.show.width = bound.w);
+		Number.isFinite(bound.h) && (this.show.height = bound.h);
 		this.show.position.set(bound.x, bound.y);
 	}
 	static caclBound(o:Ni,parent?: any){
-		let x,y,w,h,l,r,t,b,
+		let x:number,y:number,w:number,h:number,l:number,r:number,t:number,b:number,
 		parseNumber = (s: any,b?: number):number=>{
 			if(typeof s === "string"){
 				s = s.replace("%","");
@@ -434,28 +434,28 @@ class Ni{
 		r = parseNumber(o._right,parent._width);
 		t = parseNumber(o._top,parent._height);
 		b = parseNumber(o._bottom,parent._height);
-		if(l !== undefined){
+		if(Number.isFinite(l)){
 			x = l;
 		}
-		if(r !== undefined){
-			if(x !== undefined){
+		if(Number.isFinite(r)){
+			if(Number.isFinite(x)){
 				w = (parent._width || parent.width) - x - r;
 			}else{
 				x = (parent._width || parent.width) - (o.show._width || o.show.width) - r;
 			}
 		}
-		if(t !== undefined){
+		if(Number.isFinite(t)){
 			y = t;
 		}
-		if(b !== undefined){
-			if(y !== undefined){
+		if(Number.isFinite(b)){
+			if(Number.isFinite(y)){
 				h = (parent._height || parent.height) - y - b;
 			}else{
 				y = (parent._height || parent.height) - (o.show._height || o.show.height) - b;
 			}
 		}
-		w = w !== undefined?w:o._width;
-		h = h !== undefined?h:o._height;
+		w = Number.isFinite(w)?w:o._width;
+		h = Number.isFinite(h)?h:o._height;
 		return {x:x||0,y:y||0,w:w,h:h};
 		// w !== undefined && (this.show.width = w);
 		// h !== undefined && (this.show.height = h);
