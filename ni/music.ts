@@ -11,6 +11,11 @@ export default class Music {
   static table = {}
   //背景音乐
   static bgm = ""
+  //音乐播放状态，true为可以播放，false不播放
+  static status = {
+    loop:true,
+    once:true
+  }
   /**
    * @description 初始化配置表
    * @param data 配置数据{"audio/xx":decodeAudioData}
@@ -30,14 +35,19 @@ export default class Music {
     if(Music.table[path] && Music.table[path].PLAYING_STATE == Music.table[path].playbackState){
       Music.table[path].stop();
     }
+    if(loop){
+      Music.bgm = path;
+    }
+    if(!Music.status[loop?"loop":"once"]){
+      return;
+    }
     let m = createBufferSource(path);
+    if(!m){
+      return;
+    }
     if(loop){
       if(Music.table[Music.bgm]&& Music.table[Music.bgm].PLAYING_STATE == Music.table[Music.bgm].playbackState){
         Music.table[Music.bgm].stop();
-      }
-      Music.bgm = path;
-      if(!m){
-        return;
       }
       m.loop = loop;
     }
@@ -53,6 +63,21 @@ export default class Music {
    */
   static stop(path: string){
     Music.table[path].stop(0);
+  }
+  /**
+   * @description 设置播放状态
+   * @param type "loop" || "once"
+   * @param b true || false
+   */
+  static setStatue(type: string,b: boolean):void{
+    let old = Music.status["loop"];
+    if(old == b){
+      return;
+    }
+    Music.status[type] = b;
+    if(type == "loop" && old == false && b == true && Music.bgm){
+      Music.play(Music.bgm, true);
+    }
   }
 }
 /****************** 本地 ******************/

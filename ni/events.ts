@@ -37,6 +37,10 @@ export class Events {
     static mobile: boolean
     //绑定函数
     static bindFunc: Function
+    //事件响应时间间隔
+    static onTimeLimit:{
+        tap:300
+    }
     /**
      * @description 初始化设备数据
      */
@@ -129,7 +133,7 @@ export class Events {
      */
     static tap(e){
         let {o,on,func,arg} = Events.findEvent(Events.eventsType.tap);
-        if(on){
+        if(on && t - (o.ni.onTime.tap || 0) >= Events.onTimeLimit.tap){
             Events.responseEvent(o,e,arg,func,Events.eventsType.tap);
         }else{
         // if(Events.status.eventType && Events.status.eventType != Events.eventsType.start){
@@ -209,6 +213,7 @@ export class Events {
      */
     static responseEvent(o,e,arg,func,type){
         Events.status.eventType = type;
+        o.ni.onTime[type] = Date.now();
         arg = arg || [];
         arg.push(e);
         arg.push(o);

@@ -342,6 +342,10 @@ class Ni{
 	 * @description 帧动画动作列表
 	 */
 	public actions = {}
+	// 事件响应时间
+	public onTime:{[key: string]: number} = {
+
+	}
 	/**
 	 * @description 画状态表
 	 */
