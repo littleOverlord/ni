@@ -75,8 +75,12 @@ export default class Music {
       return;
     }
     Music.status[type] = b;
-    if(type == "loop" && old == false && b == true && Music.bgm){
-      Music.play(Music.bgm, true);
+    if(type == "loop" && Music.bgm){
+      if(b == true){
+        Music.play(Music.bgm, true);
+      }else if(b == false && Music.table[Music.bgm]&& Music.table[Music.bgm].PLAYING_STATE == Music.table[Music.bgm].playbackState ){
+          Music.table[Music.bgm].stop();
+      }
     }
   }
 }
