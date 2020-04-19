@@ -32,6 +32,7 @@ export default class Music {
    * @description 播放音乐
    */
   static play(path: string,loop?: boolean){
+    let old = Music.bgm;
     if(Music.table[path] && Music.table[path].PLAYING_STATE == Music.table[path].playbackState){
       Music.table[path].stop();
     }
@@ -46,8 +47,8 @@ export default class Music {
       return;
     }
     if(loop){
-      if(Music.table[Music.bgm]&& Music.table[Music.bgm].PLAYING_STATE == Music.table[Music.bgm].playbackState){
-        Music.table[Music.bgm].stop();
+      if(old && Music.table[old]&& Music.table[old].PLAYING_STATE == Music.table[old].playbackState){
+        Music.table[old].stop();
       }
       m.loop = loop;
     }
@@ -70,7 +71,7 @@ export default class Music {
    * @param b true || false
    */
   static setStatue(type: string,b: boolean):void{
-    let old = Music.status["loop"];
+    let old = Music.status[type];
     if(old == b){
       return;
     }
